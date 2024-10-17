@@ -1,8 +1,8 @@
 package com.vicente;
 
 public enum Ordenes {
-    REGISTRAR,
-    LOGUEAR,
+    CREAR_USUARIO,
+    LOGUEAR_USUARIO,
     CHATS,
     ACTIVIDADES,
     SUSCRIBIRSE,

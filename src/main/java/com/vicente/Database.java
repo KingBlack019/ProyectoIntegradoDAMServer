@@ -1,5 +1,8 @@
 package com.vicente;
 
+import com.vicente.Controller.ServerController;
+import com.vicente.Model.Usuario;
+
 import java.sql.*;
 
 public class Database {
@@ -47,27 +50,20 @@ public class Database {
     }
 
 
-    public boolean crearUsuario(String usuario, String primerApellido, String segundoApellido, String contrasena, String correoElectronico, String fechaCreacion) {
+    public boolean crearUsuario(Usuario usuario) {
         String query = "INSERT INTO usuarios (idUsuario, nombre, apellido1, apellido2, email, contrasena, fechaCuentaCreada) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        System.out.println("usuario = " + usuario);
-        System.out.println("primerApellido = " + primerApellido);
-        System.out.println("segundoApellido = " + segundoApellido);
-        System.out.println("correoElectronico = " + correoElectronico);
-        System.out.println("contrasena = " + contrasena);
-        System.out.println("fechaCreacion = " + fechaCreacion);
 
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
              PreparedStatement statement = conexion.prepareStatement(query)) {
 
             // Establecer los parámetros
-            statement.setString(1, ServerManagement.generarIdAleatorio());
-            statement.setString(2, usuario); // Utilizar el ID generado en el cliente
-            statement.setString(3, primerApellido);
-            statement.setString(4, segundoApellido);
-            statement.setString(5, correoElectronico);
-            statement.setString(6, contrasena);
-            statement.setString(7, fechaCreacion);
+            statement.setString(1, ServerController.generarIdAleatorio());
+            statement.setString(2, usuario.getNombre()); // Utilizar el ID generado en el cliente
+            statement.setString(3, usuario.getPrimerApellido());
+            statement.setString(4, usuario.getSegundoApellido());
+            statement.setString(5, usuario.getEmail());
+            statement.setString(6, usuario.getContrasena());
+            statement.setString(7, usuario.getFechaRegistro());
 
 
             // Ejecutar la inserción
@@ -85,5 +81,11 @@ public class Database {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void buscarUsuario(String id) {
+    }
+
+    public void eliminarUsuario(String id) {
     }
 }

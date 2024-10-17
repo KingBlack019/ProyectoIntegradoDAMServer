@@ -1,14 +1,15 @@
 package com.vicente;
 
+import com.vicente.Controller.ServerController;
+import com.vicente.Services.UsuarioService;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * Hello world!
@@ -17,11 +18,11 @@ import java.sql.SQLException;
 public class Server implements Runnable
 {
     private final Socket socket;
-    private static ServerManagement serverManagement = new ServerManagement();
+    private final ServerController serverController;
 
-    public Server(Socket socket, ServerManagement serverManagement) {
+    public Server(Socket socket, ServerController serverController) {
         this.socket = socket;
-        Server.serverManagement = serverManagement;
+        this.serverController = serverController;
     }
     static int puerto = 1234;
 
@@ -30,13 +31,20 @@ public class Server implements Runnable
         try (ServerSocket servidorSocket = new ServerSocket(puerto)) {
             System.out.println("Servidor escuchando en el puerto " + puerto);
 
+            // Crear servicios para el servidor
+            Database database = new Database();
+
+            UsuarioService usuarioService = new UsuarioService(database);
+
+            ServerController serverController = new ServerController(servidorSocket, usuarioService);
+
             // Aceptar múltiples conexiones en un bucle infinito
             while (true) {
                 Socket socketCliente = servidorSocket.accept();
                 System.out.println("Cliente conectado: " + socketCliente.getInetAddress());
 
                 // Crear un nuevo hilo para manejar al cliente
-                new Thread(new Server(socketCliente, new ServerManagement())).start();
+                new Thread(new Server(socketCliente, serverController)).start();
             }
 
         } catch (IOException e) {
@@ -55,34 +63,9 @@ public class Server implements Runnable
             while ((mensaje = entrada.readLine()) != null) {
                 System.out.println("Mensaje recibido del cliente: " + mensaje);
 
-                if (serverManagement.mismoTexto(mensaje, Ordenes.REGISTRAR.toString())){
-                    System.out.println("PROCESO REGISTRO");
-                    salida.println(serverManagement.existeUsuario(entrada.readLine()));
 
-                    // RECIBIR 7 STRINGS
-
-                    String usuario = entrada.readLine();
-                    String contrasena = entrada.readLine();
-                    String primerApellido = entrada.readLine();
-                    String segundoApellido = entrada.readLine();
-                    String correoElectronico = entrada.readLine();
-                    String fechaCreacion = entrada.readLine();
-                    String rol = entrada.readLine();
-
-                    System.out.println("usuario = " + usuario);
-                    System.out.println("primerApellido = " + primerApellido);
-                    System.out.println("segundoApellido = " + segundoApellido);
-                    System.out.println("correoElectronico = " + correoElectronico);
-                    System.out.println("contrasena = " + contrasena);
-                    System.out.println("fechaCreacion = " + fechaCreacion);
-
-                    System.out.println(serverManagement.crearUsuario(usuario, primerApellido, segundoApellido, contrasena, correoElectronico, rol, fechaCreacion));
-
-                }
-
-                if(serverManagement.mismoTexto(mensaje, Ordenes.LOGUEAR.toString())){
-                    boolean resultado = serverManagement.loguear(entrada.readLine(), entrada.readLine());
-                }
+                Object[] parametros = new Object[2]; // numero de parametros permitidos por parte del usuario
+                serverController.gestionarOrden(mensaje, parametros);
             }
 
         } catch (IOException e) {
@@ -97,4 +80,3 @@ public class Server implements Runnable
         }
 }
 }
-
