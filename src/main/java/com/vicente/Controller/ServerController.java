@@ -2,9 +2,12 @@ package com.vicente.Controller;
 
 import com.vicente.Command.CrearUsuario;
 import com.vicente.Command.ExisteUsuario;
+import com.vicente.Command.IniciarUsuario;
 import com.vicente.Ordenes;
 import com.vicente.Services.UsuarioService;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -12,29 +15,32 @@ import java.util.Map;
 import java.util.Random;
 
 public class ServerController {
-    private final ServerSocket serverSocket;
     private final Map<String, Comando> comandos;
     private final UsuarioService usuarioService;
 
     // SE CREAN TODOS LOS COMANDOS Y SE GESTIONA
     public ServerController(ServerSocket serverSocket, UsuarioService usuarioService) {
-        this.serverSocket = serverSocket;
         this.usuarioService = usuarioService;
         comandos = new HashMap<>();
 
         // COMANDOS RELACIONADOS CON EL USUARIO
         comandos.put(Ordenes.CREAR_USUARIO.toString(), new CrearUsuario(usuarioService, serverSocket));
         comandos.put(Ordenes.LOGUEAR_USUARIO.toString(), new IniciarUsuario(usuarioService));
-        comandos.put(Ordenes.EXISTEUSER.toString(), new ExisteUsuario(usuarioService));
+        comandos.put(Ordenes.EXISTE_USUARIO.toString(), new ExisteUsuario(usuarioService));
     }
-
-    public void gestionarOrden(String orden, Object... parametros) {
-        Comando comando = comandos.get(orden);
-        if (comando != null)
-            comando.ejecutar(parametros);
-        else
+/*
+    public void gestionarOrden(Socket sk, String orden) {
+        try{
+            Comando comando = comandos.get(orden);
+            if (comando != null) {
+                comando.ejecutar(sk);
+            } else
             System.out.println("Orden no reconocida.");
-    }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }*/
 
 
     // Metodo para generar un ID aleatorio de 10 caracteres alfanuméricos
@@ -54,4 +60,15 @@ public class ServerController {
         return txt1.compareTo(txt2) == 0;
     }
 
+    public void gestionarOrden(BufferedReader entrada, PrintWriter salida, String orden) {
+        try{
+            Comando comando = comandos.get(orden);
+            if (comando != null) {
+                comando.ejecutar(entrada, salida);
+            } else
+                System.out.println("Orden no reconocida.");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

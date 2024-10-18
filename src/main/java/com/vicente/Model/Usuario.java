@@ -83,4 +83,16 @@ public class Usuario implements Serializable {
 
         return usuario;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nombre='" + nombre + '\'' +
+                ", primerApellido='" + primerApellido + '\'' +
+                ", segundoApellido='" + segundoApellido + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                ", email='" + email + '\'' +
+                ", fechaRegistro='" + fechaRegistro + '\'' +
+                '}';
+    }
 }

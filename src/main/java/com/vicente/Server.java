@@ -62,14 +62,11 @@ public class Server implements Runnable
             String mensaje;
             while ((mensaje = entrada.readLine()) != null) {
                 System.out.println("Mensaje recibido del cliente: " + mensaje);
-
-
-                Object[] parametros = new Object[2]; // numero de parametros permitidos por parte del usuario
-                serverController.gestionarOrden(mensaje, parametros);
+                serverController.gestionarOrden(entrada, salida, mensaje);
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            }catch (IOException ex) {
+            throw new RuntimeException(ex);
         } finally {
             try {
                 socket.close();
@@ -79,4 +76,5 @@ public class Server implements Runnable
             }
         }
 }
+
 }

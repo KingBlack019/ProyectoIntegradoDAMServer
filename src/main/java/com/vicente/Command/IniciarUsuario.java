@@ -1,6 +1,10 @@
-package com.vicente.Controller;
+package com.vicente.Command;
 
+import com.vicente.Controller.Comando;
 import com.vicente.Services.UsuarioService;
+
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 
 public class IniciarUsuario implements Comando {
     private final UsuarioService usuarioService;
@@ -9,7 +13,12 @@ public class IniciarUsuario implements Comando {
     }
 
     @Override
-    public void ejecutar(Object[] parametro) {
+    public void ejecutar(BufferedReader entrada, PrintWriter salida) {
 
     }
+/*
+    @Override
+    public void ejecutar(Socket sk) {
+
+    }*/
 }

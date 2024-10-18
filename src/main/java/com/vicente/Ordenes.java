@@ -6,5 +6,5 @@ public enum Ordenes {
     CHATS,
     ACTIVIDADES,
     SUSCRIBIRSE,
-    EXISTEUSER
+    EXISTE_USUARIO
 }
