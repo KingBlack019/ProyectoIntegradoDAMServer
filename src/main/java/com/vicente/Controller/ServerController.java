@@ -1,15 +1,14 @@
 package com.vicente.Controller;
 
-import com.vicente.Command.CrearUsuario;
-import com.vicente.Command.ExisteUsuario;
-import com.vicente.Command.IniciarUsuario;
+import com.vicente.Command.Usuario.CrearUsuario;
+import com.vicente.Command.Usuario.ExisteUsuario;
+import com.vicente.Command.Usuario.IniciarUsuario;
 import com.vicente.Ordenes;
 import com.vicente.Services.UsuarioService;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -28,20 +27,6 @@ public class ServerController {
         comandos.put(Ordenes.LOGUEAR_USUARIO.toString(), new IniciarUsuario(usuarioService));
         comandos.put(Ordenes.EXISTE_USUARIO.toString(), new ExisteUsuario(usuarioService));
     }
-/*
-    public void gestionarOrden(Socket sk, String orden) {
-        try{
-            Comando comando = comandos.get(orden);
-            if (comando != null) {
-                comando.ejecutar(sk);
-            } else
-            System.out.println("Orden no reconocida.");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }*/
-
 
     // Metodo para generar un ID aleatorio de 10 caracteres alfanuméricos
     public static String generarIdAleatorio() {

@@ -88,4 +88,13 @@ public class Database {
 
     public void eliminarUsuario(String id) {
     }
+
+    public void iniciarSesionUsuario(String nombreUsuario, String contrasena) {
+
+    }
+
+    // TODO obtener la contraseña hasheada de la base de datos
+    public String obtenerContrasena(String nombreUsuario){
+        return ""
+    }
 }

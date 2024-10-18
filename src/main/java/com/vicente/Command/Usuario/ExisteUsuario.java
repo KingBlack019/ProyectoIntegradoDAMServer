@@ -1,4 +1,4 @@
-package com.vicente.Command;
+package com.vicente.Command.Usuario;
 
 import com.vicente.Controller.Comando;
 import com.vicente.Services.UsuarioService;
@@ -34,28 +34,4 @@ public class ExisteUsuario implements Comando {
         }
     }
 
-/*
-    @Override
-    public void ejecutar(Socket sk) {
-        try{
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(sk.getInputStream()));
-            PrintWriter salida = new PrintWriter(sk.getOutputStream(), true);
-            System.out.println("A LA ESPERA DE LEER EL USUARIO");
-            String texto = entrada.readLine();
-
-            if( texto != null){
-                System.out.println("texto = " + texto);
-                salida.println(true);
-                System.out.println("EXISTE USUARIO EJECUTADO");
-
-            }else {
-                System.out.println("No se recibio el nombre de usuario");
-            }
-            salida.println(false);
-            System.out.println(texto); // todo va a leer primer el nombre de usuario para comprobar si existe, enn nuestro caso saltamos esto
-
-            } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 }

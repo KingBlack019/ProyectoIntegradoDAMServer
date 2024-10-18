@@ -69,21 +69,6 @@ public class Usuario implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Usuario convertirAUsuario (String cadena){
-        String[] partes = cadena.split(";");
-        Usuario usuario = new Usuario();
-
-        // Asumiendo que las partes están en el mismo orden que se agregaron
-        usuario.setNombre(partes[0]);
-        usuario.setPrimerApellido(partes[1]);
-        usuario.setSegundoApellido(partes[2]);
-        usuario.setContrasena(partes[3]);
-        usuario.setEmail(partes[4]);
-        usuario.setFechaRegistro(partes[5]);
-
-        return usuario;
-    }
-
     @Override
     public String toString() {
         return "Usuario{" +

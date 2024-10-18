@@ -1,11 +1,10 @@
-package com.vicente.Command;
+package com.vicente.Command.Usuario;
 
 import com.vicente.Controller.Comando;
 import com.vicente.Services.UsuarioService;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 public class EliminarUsuario implements Comando {
     private final UsuarioService usuarioService;
